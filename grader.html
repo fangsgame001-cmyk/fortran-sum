@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>任務達成評分系統</title>
+<style>
+  :root{--bg:#f6f5f2;--card:#fff;--ink:#1f2328;--mute:#6a6f76;--line:#dedbd4;--ok:#1a7f4b;--okbg:#e6f4ec;--bad:#b42318;--badbg:#fdecea;--acc:#c2410c}
+  @media (prefers-color-scheme:dark){:root{--bg:#17181a;--card:#212326;--ink:#e8e6e1;--mute:#9a9ea4;--line:#34373b;--ok:#4cc38a;--okbg:#16301f;--bad:#f07167;--badbg:#3a1d1b;--acc:#fb923c}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+  .wrap{max-width:820px;margin:0 auto;padding:24px 16px 64px}
+  h1{font-size:24px;margin:0 0 4px}
+  .sub{color:var(--mute);margin:0 0 20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+  .card h2{font-size:17px;margin:0 0 4px;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .crit{color:var(--mute);font-size:13.5px;margin:0 0 12px}
+  label{display:block;font-size:13.5px;color:var(--mute);margin:10px 0 4px}
+  input[type=text],input[type=number],textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--ink);font:inherit}
+  textarea{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;min-height:70px}
+  .row3{display:grid;grid-template-columns:1fr 1.6fr;gap:8px}
+  .chk{display:flex;gap:8px;align-items:center;margin-top:10px;color:var(--ink);font-size:14.5px}
+  .chk input{width:18px;height:18px}
+  .res{margin-top:12px;padding:10px 12px;border-radius:8px;font-size:14px;display:none;white-space:pre-line}
+  .res.ok{display:block;background:var(--okbg);color:var(--ok)}
+  .res.bad{display:block;background:var(--badbg);color:var(--bad)}
+  .pts{font-size:14px;color:var(--mute);white-space:nowrap}
+  .pts b{color:var(--ink)}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 20px}
+  button{font:inherit;padding:9px 16px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  .total{position:sticky;bottom:12px;background:var(--card);border:2px solid var(--acc);border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .total .big{font-size:30px;font-weight:700;color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}
+  td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>任務達成評分系統</h1>
+  <p class="sub">輸入前四題的實際結果，系統依標準自動檢查，達標就給該題 20 分（未達標 0 分）。</p>
+
+  <div class="bar">
+    <button class="primary" id="btnGrade">開始評分</button>
+    <button id="btnSample">載入本次作答結果</button>
+    <button id="btnClear">清除</button>
+  </div>
+
+  <!-- 第一題 -->
+  <div class="card">
+    <h2>一、Fortran 1 加到 N 程式 <span class="pts" id="p1">— / 20</span></h2>
+    <p class="crit">達標標準：已勾選編譯成功，且程式輸出等於 N(N+1)/2。</p>
+    <div class="chk"><input type="checkbox" id="q1c"><span>gfortran 編譯成功</span></div>
+    <div class="row3">
+      <div><label>測試的 N</label><input type="number" id="q1n" min="1"></div>
+      <div><label>程式輸出的總和</label><input type="text" id="q1o" inputmode="numeric"></div>
+    </div>
+    <div class="res" id="r1"></div>
+  </div>
+
+  <!-- 第二題 -->
+  <div class="card">
+    <h2>二、三次隨機驗證 <span class="pts" id="p2">— / 20</span></h2>
+    <p class="crit">達標標準：三組 N 互不相同，且三組輸出都等於 N(N+1)/2。</p>
+    <div class="row3"><div><label>第 1 次 N</label><input type="number" id="q2n1"></div><div><label>第 1 次輸出</label><input type="text" id="q2o1"></div></div>
+    <div class="row3"><div><label>第 2 次 N</label><input type="number" id="q2n2"></div><div><label>第 2 次輸出</label><input type="text" id="q2o2"></div></div>
+    <div class="row3"><div><label>第 3 次 N</label><input type="number" id="q2n3"></div><div><label>第 3 次輸出</label><input type="text" id="q2o3"></div></div>
+    <div class="res" id="r2"></div>
+  </div>
+
+  <!-- 第三題 -->
+  <div class="card">
+    <h2>三、Git 版本控制與逐行註解 <span class="pts" id="p3">— / 20</span></h2>
+    <p class="crit">達標標準：git log 至少有 2 筆 commit（原版 + 註解新版），且已勾選註解版編譯驗證成功。</p>
+    <label>貼上 <code>git log --oneline</code> 的輸出</label>
+    <textarea id="q3log" placeholder="1ca2a0e v2: ...&#10;7ec7e6a v1: ..."></textarea>
+    <div class="chk"><input type="checkbox" id="q3c"><span>逐行註解版已重新編譯並驗證成功</span></div>
+    <div class="res" id="r3"></div>
+  </div>
+
+  <!-- 第四題 -->
+  <div class="card">
+    <h2>四、推送到 GitHub <span class="pts" id="p4">— / 20</span></h2>
+    <p class="crit">達標標準：填入有效的 GitHub repo 網址，且雲端的 commit 和本地第三題的 commit 一致（至少 2 筆）。</p>
+    <label>GitHub repo 網址</label>
+    <input type="text" id="q4url" placeholder="https://github.com/帳號/repo">
+    <label>貼上雲端紀錄 <code>git log --oneline origin/main</code></label>
+    <textarea id="q4log"></textarea>
+    <div class="res" id="r4"></div>
+  </div>
+
+  <!-- 總分 -->
+  <div class="card">
+    <h2>評分結果</h2>
+    <table id="summary"><tr><th>題目</th><th>結果</th><th>得分</th></tr></table>
+  </div>
+  <div class="total"><span>前四題總分</span><span class="big" id="total">— / 80</span></div>
+</div>
+
+<script>
+/* ===== 評分邏輯（純函式） ===== */
+function toBig(s){ s=String(s==null?'':s).trim().replace(/,/g,''); return /^\d+$/.test(s)?BigInt(s):null; }
+function expected(n){ const b=toBig(n); return (b===null||b<1n)?null:b*(b+1n)/2n; }
+function parseCommits(text){
+  return String(text||'').split(/\r?\n/).map(l=>l.trim())
+    .map(l=>{const m=l.match(/^(?:\*\s*)?([0-9a-f]{7,40})\b\s*(.*)$/i);return m?{hash:m[1].toLowerCase(),msg:m[2]}:null;})
+    .filter(Boolean);
+}
+function gradeQ1(d){
+  const e=expected(d.n), o=toBig(d.out), why=[];
+  if(!d.compiled) why.push('未確認編譯成功');
+  if(e===null) why.push('N 必須是正整數');
+  else if(o===null) why.push('程式輸出不是整數');
+  else if(o!==e) why.push(`輸出 ${o} ≠ 預期 ${e}`);
+  return why.length?{pass:false,msg:'未達標：'+why.join('；')}:{pass:true,msg:`達標：N=${d.n}，輸出 ${o} = N(N+1)/2`};
+}
+function gradeQ2(rows){
+  const lines=[],ns=[]; let ok=true;
+  rows.forEach((r,i)=>{
+    const e=expected(r.n), o=toBig(r.out);
+    if(e===null){ok=false;lines.push(`第 ${i+1} 次：N 未填或不是正整數`);return;}
+    ns.push(String(toBig(r.n)));
+    if(o===null||o!==e){ok=false;lines.push(`第 ${i+1} 次：N=${r.n}，輸出 ${r.out||'(空)'} ≠ 預期 ${e} ✗`);}
+    else lines.push(`第 ${i+1} 次：N=${r.n}，${o} ✓`);
+  });
+  if(ns.length===3 && new Set(ns).size<3){ok=false;lines.push('三組 N 必須互不相同');}
+  return {pass:ok,msg:(ok?'達標\n':'未達標\n')+lines.join('\n')};
+}
+function gradeQ3(d){
+  const c=parseCommits(d.log), why=[];
+  if(c.length<2) why.push(`只找到 ${c.length} 筆 commit，至少需要 2 筆`);
+  if(!d.compiled) why.push('未確認註解版編譯驗證成功');
+  return why.length?{pass:false,msg:'未達標：'+why.join('；')}:{pass:true,msg:`達標：共 ${c.length} 筆 commit（最新：${c[0].hash} ${c[0].msg}）`};
+}
+function gradeQ4(d,localLog){
+  const why=[], url=String(d.url||'').trim();
+  if(!/^https?:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/?(\.git)?$/.test(url)) why.push('GitHub repo 網址格式不正確');
+  const remote=parseCommits(d.log), local=parseCommits(localLog);
+  if(remote.length<2) why.push(`雲端只找到 ${remote.length} 筆 commit，至少需要 2 筆`);
+  else if(local.length){
+    const rs=new Set(remote.map(c=>c.hash.slice(0,7)));
+    const miss=local.filter(c=>!rs.has(c.hash.slice(0,7)));
+    if(miss.length) why.push('雲端缺少本地 commit：'+miss.map(c=>c.hash).join(', '));
+  }
+  return why.length?{pass:false,msg:'未達標：'+why.join('；')}:{pass:true,msg:`達標：${url} 上有 ${remote.length} 筆 commit，與本地一致`};
+}
+
+/* ===== 介面 ===== */
+const $=id=>document.getElementById(id);
+const titles=['一、Fortran 1 加到 N 程式','二、三次隨機驗證','三、Git 版本控制與逐行註解','四、推送到 GitHub'];
+function show(i,r){
+  const el=$('r'+i); el.className='res '+(r.pass?'ok':'bad'); el.textContent=r.msg;
+  $('p'+i).innerHTML=`<b>${r.pass?20:0}</b> / 20`;
+}
+function gradeAll(){
+  const rs=[
+    gradeQ1({compiled:$('q1c').checked,n:$('q1n').value,out:$('q1o').value}),
+    gradeQ2([1,2,3].map(k=>({n:$('q2n'+k).value,out:$('q2o'+k).value}))),
+    gradeQ3({log:$('q3log').value,compiled:$('q3c').checked}),
+    gradeQ4({url:$('q4url').value,log:$('q4log').value},$('q3log').value)
+  ];
+  let t=0, html='<tr><th>題目</th><th>結果</th><th>得分</th></tr>';
+  rs.forEach((r,i)=>{show(i+1,r); const s=r.pass?20:0; t+=s;
+    html+=`<tr><td>${titles[i]}</td><td>${r.pass?'✅ 達標':'❌ 未達標'}</td><td>${s}</td></tr>`;});
+  html+=`<tr><th>合計</th><th></th><th>${t} / 80</th></tr>`;
+  $('summary').innerHTML=html; $('total').textContent=`${t} / 80`;
+}
+const sample={q1n:'100',q1o:'5050',q2n1:'264118',q2o1:'34879291021',q2n2:'562408',q2o2:'158151660436',q2n3:'700985',q2o3:'245690335605',
+  q3log:'1ca2a0e v2: 新增逐行中文註解，編譯驗證成功\n7ec7e6a v1: 原版 Fortran 程式，計算 1 加到 N',
+  q4url:'https://github.com/fangsgame001-cmyk/fortran-sum',
+  q4log:'1ca2a0e v2: 新增逐行中文註解，編譯驗證成功\n7ec7e6a v1: 原版 Fortran 程式，計算 1 加到 N'};
+$('btnSample').onclick=()=>{for(const k in sample)$(k).value=sample[k]; $('q1c').checked=true; $('q3c').checked=true; gradeAll();};
+$('btnClear').onclick=()=>{document.querySelectorAll('input,textarea').forEach(e=>{if(e.type==='checkbox')e.checked=false;else e.value='';});
+  for(let i=1;i<=4;i++){$('r'+i).className='res';$('p'+i).textContent='— / 20';}
+  $('summary').innerHTML='<tr><th>題目</th><th>結果</th><th>得分</th></tr>'; $('total').textContent='— / 80';};
+$('btnGrade').onclick=gradeAll;
+</script>
+</body>
+</html>

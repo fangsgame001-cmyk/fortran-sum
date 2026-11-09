@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>方柏崴 414210780 100分</title>
+<style>
+  :root{--bg:#f6f5f2;--card:#fff;--ink:#1f2328;--mute:#5f646b;--line:#dedbd4;--ok:#1a7f4b;--okbg:#e6f4ec;--acc:#c2410c;--code:#f3f1ec}
+  @media (prefers-color-scheme:dark){:root{--bg:#17181a;--card:#212326;--ink:#e8e6e1;--mute:#a0a4aa;--line:#34373b;--ok:#4cc38a;--okbg:#16301f;--acc:#fb923c;--code:#1a1b1d}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.7 system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+  .wrap{max-width:860px;margin:0 auto;padding:28px 16px 64px}
+  header{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  header h1{margin:0;font-size:24px}
+  header .meta{color:var(--mute);margin-top:4px}
+  .score{font-size:40px;font-weight:800;color:var(--acc);line-height:1}
+  .score small{font-size:16px;color:var(--mute);font-weight:500}
+  nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  nav a{padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);text-decoration:none;font-size:14px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:20px}
+  section h2{margin:0 0 12px;font-size:19px;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .badge{font-size:14px;padding:3px 10px;border-radius:999px;background:var(--okbg);color:var(--ok);white-space:nowrap;font-weight:600}
+  h3{font-size:15px;margin:18px 0 6px;color:var(--acc)}
+  .q{border-left:4px solid var(--acc);padding:8px 12px;background:var(--code);border-radius:0 8px 8px 0}
+  pre{background:var(--code);border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto;font:13px/1.55 ui-monospace,Menlo,Consolas,monospace;margin:6px 0}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  td,th{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}
+  .ok{color:var(--ok);font-weight:600}
+  .shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:8px}
+  .shots a{display:block;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--code)}
+  .shots img{width:100%;display:block}
+  .shotwrap{display:none}
+  a{color:var(--acc)}
+  footer{color:var(--mute);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>目標達成評分制 作業成果</h1>
+    <div class="meta">姓名：方柏崴　｜　學號：414210780</div>
+  </div>
+  <div class="score">100<small> / 100 分</small></div>
+</header>
+
+<nav>
+  <a href="#q1">一、Fortran 程式</a><a href="#q2">二、隨機驗證</a><a href="#q3">三、Git 版本控制</a>
+  <a href="#q4">四、GitHub</a><a href="#q5">五、評分系統</a><a href="#total">評分總表</a>
+</nav>
+
+<!-- 一 -->
+<section id="q1">
+  <h2>一、Fortran 1 加到 N 程式 <span class="badge">20 / 20 達標</span></h2>
+  <div class="q">指揮 AI 輸出一個能做 1 加到 N 的 Fortran 程式並完成編譯，確認可以成功執行計算並輸出結果。（20 分）</div>
+  <h3>答題過程</h3>
+  <p>指揮 AI 安裝 GNU Fortran 編譯器（gfortran 13.3.0），撰寫 <code>sum.f90</code>：讀入 N，檢查 N 為正整數，用 do 迴圈從 1 累加到 N 後輸出。變數使用 64 位元整數，避免大數溢位。</p>
+<pre>program sum_1_to_n
+  implicit none
+  integer(kind=8) :: n, i, total
+
+  write(*, '(A)', advance='no') 'Enter N: '
+  read(*, *) n
+
+  if (n &lt; 1) then
+    write(*, '(A)') 'Error: N must be a positive integer.'
+    stop 1
+  end if
+
+  total = 0
+  do i = 1, n
+    total = total + i
+  end do
+
+  write(*, '(A, I0, A, I0)') 'Sum of 1 to ', n, ' = ', total
+end program sum_1_to_n</pre>
+  <h3>編譯與執行結果</h3>
+<pre>$ gfortran -Wall -o sum sum.f90
+== 編譯成功 ==（無任何警告）
+$ echo 100 | ./sum
+Enter N: Sum of 1 to 100 = 5050</pre>
+  <h3>答案</h3>
+  <p>編譯成功，N = 100 時輸出 <b>5050</b>，與公式 N(N+1)/2 = 5050 相符。</p>
+  <div class="shotwrap" data-q="q1"><h3>截圖</h3><div class="shots"></div></div>
+</section>
+
+<!-- 二 -->
+<section id="q2">
+  <h2>二、三次隨機驗證 <span class="badge">20 / 20 達標</span></h2>
+  <div class="q">指揮 AI 執行該程式進行三次隨機的驗證，以確定該程式功能的正確性。（20 分）</div>
+  <h3>答題過程</h3>
+  <p>指揮 AI 用 <code>shuf</code> 在 1～1,000,000 之間隨機抽出三個 N，輸入程式執行，並將輸出與公式 N(N+1)/2 自動比對。</p>
+<pre>for k in 1 2 3; do
+  n=$(shuf -i 1-1000000 -n 1)
+  got=$(echo $n | ./sum | awk -F'= ' '{print $2}')
+  exp=$(( n*(n+1)/2 ))
+  [ "$got" = "$exp" ] &amp;&amp; echo PASS || echo FAIL
+done</pre>
+  <h3>答案</h3>
+  <table>
+    <tr><th>次數</th><th>隨機 N</th><th>程式輸出</th><th>公式 N(N+1)/2</th><th>結果</th></tr>
+    <tr><td>1</td><td>264118</td><td>34879291021</td><td>34879291021</td><td class="ok">✅ PASS</td></tr>
+    <tr><td>2</td><td>562408</td><td>158151660436</td><td>158151660436</td><td class="ok">✅ PASS</td></tr>
+    <tr><td>3</td><td>700985</td><td>245690335605</td><td>245690335605</td><td class="ok">✅ PASS</td></tr>
+  </table>
+  <p>三次全部通過。結果都超過 32 位元整數上限（約 21 億），證明 64 位元設計可正確處理大數。</p>
+  <div class="shotwrap" data-q="q2"><h3>截圖</h3><div class="shots"></div></div>
+</section>
+
+<!-- 三 -->
+<section id="q3">
+  <h2>三、Git 版本控制與逐行註解 <span class="badge">20 / 20 達標</span></h2>
+  <div class="q">針對所開發的程式進行 Git 版本控制，將原版認錄（commit），之後指揮 AI 針對原程式碼進行逐行註解並編譯驗證成功後，再次認錄為新版。（20 分）</div>
+  <h3>答題過程</h3>
+<pre>$ git init -b main
+$ git add sum.f90 .gitignore
+$ git commit -m "v1: 原版 Fortran 程式，計算 1 加到 N"
+
+（指揮 AI 為每一行加上中文註解）
+
+$ gfortran -Wall -o sum sum.f90      → 編譯成功
+$ echo 100 | ./sum                   → 5050（正確）
+$ echo 264118 | ./sum                → 34879291021（正確）
+$ git commit -am "v2: 新增逐行中文註解，編譯驗證成功"</pre>
+  <h3>逐行註解版程式（v2）</h3>
+<pre>program sum_1_to_n                     ! 宣告主程式，名稱為 sum_1_to_n
+  implicit none                        ! 關閉隱式型別宣告，所有變數都必須明確宣告
+  integer(kind=8) :: n, i, total       ! 宣告 64 位元整數：n 為上限、i 為迴圈計數器、total 為累加總和
+
+  write(*, '(A)', advance='no') 'Enter N: '   ! 輸出提示文字，游標停在同一行等待輸入
+  read(*, *) n                         ! 從標準輸入讀取使用者輸入的 N
+
+  if (n &lt; 1) then                      ! 檢查 N 是否小於 1（不合法的輸入）
+    write(*, '(A)') 'Error: N must be a positive integer.'  ! 輸出錯誤訊息
+    stop 1                             ! 以錯誤碼 1 結束程式
+  end if                               ! 結束 if 判斷區塊
+
+  total = 0                            ! 將累加總和初始化為 0
+  do i = 1, n                          ! 迴圈：i 從 1 跑到 n
+    total = total + i                  ! 將目前的 i 加到總和中
+  end do                               ! 結束 do 迴圈
+
+  write(*, '(A, I0, A, I0)') 'Sum of 1 to ', n, ' = ', total  ! 輸出結果，I0 表示以最小寬度輸出整數
+end program sum_1_to_n                 ! 結束主程式</pre>
+  <h3>答案</h3>
+<pre>$ git log --oneline
+1ca2a0e v2: 新增逐行中文註解，編譯驗證成功
+7ec7e6a v1: 原版 Fortran 程式，計算 1 加到 N</pre>
+  <div class="shotwrap" data-q="q3"><h3>截圖</h3><div class="shots"></div></div>
+</section>
+
+<!-- 四 -->
+<section id="q4">
+  <h2>四、上傳 GitHub 雲端儲存 <span class="badge">20 / 20 達標</span></h2>
+  <div class="q">將本地端已經進行版本控制的程式碼，傳送到 GitHub 做雲端儲存。（20 分）</div>
+  <h3>答題過程</h3>
+  <p>在 GitHub 建立 repo <code>fortran-sum</code>，授權 Claude GitHub App 寫入權限後，指揮 AI 推送本地版本庫，再從雲端重新抓取比對。</p>
+<pre>$ git remote add origin https://github.com/fangsgame001-cmyk/fortran-sum.git
+$ git push -u origin main
+To https://github.com/fangsgame001-cmyk/fortran-sum.git
+ * [new branch]      main -> main
+
+$ git log --oneline origin/main      （雲端驗證）
+1ca2a0e v2: 新增逐行中文註解，編譯驗證成功
+7ec7e6a v1: 原版 Fortran 程式，計算 1 加到 N</pre>
+  <h3>答案</h3>
+  <p>GitHub repo：<a href="https://github.com/fangsgame001-cmyk/fortran-sum">https://github.com/fangsgame001-cmyk/fortran-sum</a><br>
+  雲端 v1、v2 兩筆 commit 與本地完全一致。</p>
+  <div class="shotwrap" data-q="q4"><h3>截圖</h3><div class="shots"></div></div>
+</section>
+
+<!-- 五 -->
+<section id="q5">
+  <h2>五、任務達成評分系統 <span class="badge">20 / 20 達標</span></h2>
+  <div class="q">要求 AI 做一個任務達成評分系統，允許輸入前四題的結果，達標就給分。（20 分）</div>
+  <h3>答題過程</h3>
+  <p>指揮 AI 製作網頁版評分系統，可輸入前四題結果，依下列標準自動判斷，達標給 20 分、未達標 0 分並列出原因。系統已用正確與錯誤資料測試，判斷皆正確。</p>
+  <table>
+    <tr><th>題目</th><th>達標條件</th></tr>
+    <tr><td>一</td><td>確認編譯成功，且輸出 = N(N+1)/2</td></tr>
+    <tr><td>二</td><td>三組 N 互不相同，三組輸出皆 = N(N+1)/2</td></tr>
+    <tr><td>三</td><td>git log 至少 2 筆 commit，且註解版編譯驗證成功</td></tr>
+    <tr><td>四</td><td>GitHub 網址有效，雲端 commit 與本地一致</td></tr>
+  </table>
+  <h3>答案</h3>
+  <p>評分系統：<a href="grader.html">開啟任務達成評分系統</a>（按「載入本次作答結果」即可重現評分）<br>
+  輸入前四題實際結果後，系統評定 <b>80 / 80</b>，四題全部達標。</p>
+  <div class="shotwrap" data-q="q5"><h3>截圖</h3><div class="shots"></div></div>
+</section>
+
+<!-- 總表 -->
+<section id="total">
+  <h2>AI 評分結果總表</h2>
+  <table>
+    <tr><th>題目</th><th>結果</th><th>得分</th></tr>
+    <tr><td>一、Fortran 1 加到 N 程式</td><td class="ok">✅ 達標</td><td>20</td></tr>
+    <tr><td>二、三次隨機驗證</td><td class="ok">✅ 達標</td><td>20</td></tr>
+    <tr><td>三、Git 版本控制與逐行註解</td><td class="ok">✅ 達標</td><td>20</td></tr>
+    <tr><td>四、上傳 GitHub 雲端儲存</td><td class="ok">✅ 達標</td><td>20</td></tr>
+    <tr><td>五、任務達成評分系統</td><td class="ok">✅ 達標</td><td>20</td></tr>
+    <tr><th>總分</th><th></th><th>100 / 100</th></tr>
+  </table>
+  <div class="shotwrap" data-q="total"><h3>截圖</h3><div class="shots"></div></div>
+</section>
+
+<footer>方柏崴　414210780　｜　原始碼：<a href="https://github.com/fangsgame001-cmyk/fortran-sum">fangsgame001-cmyk/fortran-sum</a></footer>
+</div>
+
+<script>
+/* 自動顯示 screenshots/<題號>/ 資料夾裡的圖片：只要把截圖上傳到對應資料夾，不用改這個網頁 */
+(function(){
+  const API='https://api.github.com/repos/fangsgame001-cmyk/fortran-sum/contents/screenshots/';
+  const isImg=n=>/\.(png|jpe?g|gif|webp)$/i.test(n);
+  document.querySelectorAll('.shotwrap').forEach(w=>{
+    fetch(API+w.dataset.q+'?ref=main').then(r=>r.ok?r.json():[]).then(files=>{
+      const imgs=(Array.isArray(files)?files:[]).filter(f=>f.type==='file'&&isImg(f.name))
+        .sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));
+      if(!imgs.length) return;
+      const box=w.querySelector('.shots');
+      imgs.forEach(f=>{
+        const src='screenshots/'+w.dataset.q+'/'+encodeURIComponent(f.name);
+        const a=document.createElement('a'); a.href=src; a.target='_blank';
+        const img=document.createElement('img'); img.src=src; img.alt=f.name; img.loading='lazy';
+        a.appendChild(img); box.appendChild(a);
+      });
+      w.style.display='block';
+    }).catch(()=>{});
+  });
+})();
+</script>
+</body>
+</html>
