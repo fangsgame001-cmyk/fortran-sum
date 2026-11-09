@@ -26,6 +26,8 @@
   table{width:100%;border-collapse:collapse;font-size:14.5px}
   td,th{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}
   .ok{color:var(--ok);font-weight:600}
+  .cmd{border:1px dashed var(--acc);border-radius:8px;padding:10px 12px;font-size:15px}
+  .sig{color:var(--acc);font-weight:600;margin-left:4px;white-space:nowrap}
   .shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:8px}
   .shots a{display:block;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--code)}
   .shots img{width:100%;display:block}
@@ -54,6 +56,8 @@
 <section id="q1">
   <h2>一、Fortran 1 加到 N 程式 <span class="badge">20 / 20 達標</span></h2>
   <div class="q">指揮 AI 輸出一個能做 1 加到 N 的 Fortran 程式並完成編譯，確認可以成功執行計算並輸出結果。（20 分）</div>
+  <h3>給 AI 的指令</h3>
+  <div class="cmd">製作一個能做 1 加到 N 的 Fortran 程式並完成編譯，確認可以執行計算並輸出結果。<span class="sig">（414210780 方柏崴）</span></div>
   <h3>答題過程</h3>
   <p>指揮 AI 安裝 GNU Fortran 編譯器（gfortran 13.3.0），撰寫 <code>sum.f90</code>：讀入 N，檢查 N 為正整數，用 do 迴圈從 1 累加到 N 後輸出。變數使用 64 位元整數，避免大數溢位。</p>
 <pre>program sum_1_to_n
@@ -89,6 +93,8 @@ Enter N: Sum of 1 to 100 = 5050</pre>
 <section id="q2">
   <h2>二、三次隨機驗證 <span class="badge">20 / 20 達標</span></h2>
   <div class="q">指揮 AI 執行該程式進行三次隨機的驗證，以確定該程式功能的正確性。（20 分）</div>
+  <h3>給 AI 的指令</h3>
+  <div class="cmd">使用這個程式進行三次隨機的驗證，要確認程式的正確性。<span class="sig">（414210780 方柏崴）</span></div>
   <h3>答題過程</h3>
   <p>指揮 AI 用 <code>shuf</code> 在 1～1,000,000 之間隨機抽出三個 N，輸入程式執行，並將輸出與公式 N(N+1)/2 自動比對。</p>
 <pre>for k in 1 2 3; do
@@ -112,6 +118,8 @@ done</pre>
 <section id="q3">
   <h2>三、Git 版本控制與逐行註解 <span class="badge">20 / 20 達標</span></h2>
   <div class="q">針對所開發的程式進行 Git 版本控制，將原版認錄（commit），之後指揮 AI 針對原程式碼進行逐行註解並編譯驗證成功後，再次認錄為新版。（20 分）</div>
+  <h3>給 AI 的指令</h3>
+  <div class="cmd">針對所開發的程式進行 Git 版本控制，將原版本認錄（commit），之後指示 AI 針對原程式碼進行逐行註解並編譯驗證成功後，再次認錄為新版本。<span class="sig">（414210780 方柏崴）</span></div>
   <h3>答題過程</h3>
 <pre>$ git init -b main
 $ git add sum.f90 .gitignore
@@ -154,6 +162,8 @@ end program sum_1_to_n                 ! 結束主程式</pre>
 <section id="q4">
   <h2>四、上傳 GitHub 雲端儲存 <span class="badge">20 / 20 達標</span></h2>
   <div class="q">將本地端已經進行版本控制的程式碼，傳送到 GitHub 做雲端儲存。（20 分）</div>
+  <h3>給 AI 的指令</h3>
+  <div class="cmd">將本地端已經進行版本控制的程式碼，傳送到 GitHub 做雲端儲存。<span class="sig">（414210780 方柏崴）</span></div>
   <h3>答題過程</h3>
   <p>在 GitHub 建立 repo <code>fortran-sum</code>，授權 Claude GitHub App 寫入權限後，指揮 AI 推送本地版本庫，再從雲端重新抓取比對。</p>
 <pre>$ git remote add origin https://github.com/fangsgame001-cmyk/fortran-sum.git
@@ -174,6 +184,8 @@ $ git log --oneline origin/main      （雲端驗證）
 <section id="q5">
   <h2>五、任務達成評分系統 <span class="badge">20 / 20 達標</span></h2>
   <div class="q">要求 AI 做一個任務達成評分系統，允許輸入前四題的結果，達標就給分。（20 分）</div>
+  <h3>給 AI 的指令</h3>
+  <div class="cmd">要求 AI 做一個任務達成評分系統，允許輸入前四題的結果。<span class="sig">（414210780 方柏崴）</span></div>
   <h3>答題過程</h3>
   <p>指揮 AI 製作網頁版評分系統，可輸入前四題結果，依下列標準自動判斷，達標給 20 分、未達標 0 分並列出原因。系統已用正確與錯誤資料測試，判斷皆正確。</p>
   <table>
